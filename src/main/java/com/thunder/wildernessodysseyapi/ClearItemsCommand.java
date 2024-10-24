@@ -32,7 +32,7 @@ public class ClearItemsCommand {
         );
     }
 
-    private static int clearDroppedItems(CommandSourceStack source) {
+    static int clearDroppedItems(CommandSourceStack source) {
         ServerLevel world;
         BlockPos centerPos;
         boolean isServer = false;
