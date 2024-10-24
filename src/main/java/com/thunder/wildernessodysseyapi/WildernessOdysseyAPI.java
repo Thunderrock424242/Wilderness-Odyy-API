@@ -1,11 +1,8 @@
 package com.thunder.wildernessodysseyapi;
 
 import net.neoforged.fml.ModContainer;
-import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
-import net.neoforged.neoforge.event.server.ServerStartingEvent;
-import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.bus.api.IEventBus;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -42,7 +39,7 @@ public class WildernessOdysseyAPI {
     /**
      * The constant MOD_ID.
      */
-    public static final String MOD_ID = "wilderness_odyssey_api";
+    public static final String MOD_ID = "wildernessodysseyapi";
     private static final Logger LOGGER = LogManager.getLogger();
     /**
      * The constant ENABLE_OUTLINE.
@@ -121,7 +118,7 @@ public class WildernessOdysseyAPI {
      *
      * @param event the event
      */
-    public void onServerStartingEvent(@NotNull ServerStartingEvent event) {
+    public void onServerStartingEvent( ServerStartingEvent event) {
         // Register ban command
         BanCommand.register(event.getServer().getCommands().getDispatcher());
         ClearItemsCommand.register(event.getServer().getCommands().getDispatcher());
