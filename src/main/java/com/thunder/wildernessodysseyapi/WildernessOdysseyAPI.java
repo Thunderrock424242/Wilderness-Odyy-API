@@ -4,15 +4,10 @@ import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-// Imports for commands
-import net.mcreator.wildernessodysseyapi.command.BanCommand;
-import net.mcreator.wildernessodysseyapi.command.ClearItemsCommand;
-import net.mcreator.wildernessodysseyapi.command.AdminCommand;
-import net.mcreator.wildernessodysseyapi.command.HealCommand;
-import net.mcreator.wildernessodysseyapi.command.DimensionTPCommand;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Set;
