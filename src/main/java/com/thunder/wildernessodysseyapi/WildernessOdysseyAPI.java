@@ -1,14 +1,10 @@
 package com.thunder.wildernessodysseyapi;
 
-import net.minecraft.commands.CommandSourceStack;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.level.ServerLevel;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.ModContainer;
-import net.neoforged.fml.common.Mod;
+import com.thunder.wildernessodysseyapi.command.*;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -24,8 +20,9 @@ import java.util.concurrent.TimeUnit;
 /**
  * The type Wilderness odyssey api.
  */
-@Mod("wildernessodysseyapi")
 public class WildernessOdysseyAPI {
+
+    public static final String MODID = "wildernessodysseyapi";
 
     /**
      * The entry point of application.
@@ -153,22 +150,5 @@ public class WildernessOdysseyAPI {
      */
     public static boolean isGlobalLoggingEnabled() {
         return globalLoggingEnabled;
-    }
-    @SubscribeEvent
-    public void onWorldLoad(TickEvent.WorldLoad event) {
-        if (event.getWorld() instanceof ServerLevel serverLevel) {
-            // Schedule the execution of the command after 60 seconds
-            scheduler.schedule(() -> runClearItemsCommand(serverLevel), 60, TimeUnit.SECONDS);
-        }
-    }
-
-    private void runClearItemsCommand(ServerLevel serverLevel) {
-        MinecraftServer server = serverLevel.getServer();
-        CommandSourceStack source = server.createCommandSourceStack()
-                .withLevel(serverLevel)
-                .withPermission(2);
-
-        // Execute the clearitems command
-        ClearItemsCommand.clearDroppedItems(source);
     }
 }

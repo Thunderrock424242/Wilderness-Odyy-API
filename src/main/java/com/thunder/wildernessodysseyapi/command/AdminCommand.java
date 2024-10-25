@@ -1,4 +1,4 @@
-package com.thunder.wildernessodysseyapi;
+package com.thunder.wildernessodysseyapi.command;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.BoolArgumentType;

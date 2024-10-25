@@ -12,7 +12,7 @@
  *
  * This class will be added in the mod root package.
 */
-package com.thunder.wildernessodysseyapi;
+package com.thunder.wildernessodysseyapi.command;
 
 import com.mojang.brigadier.CommandDispatcher;
 import net.minecraft.commands.CommandSourceStack;
