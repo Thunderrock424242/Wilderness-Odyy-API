@@ -14,11 +14,10 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.CommandSource;
 
-
 import javax.annotation.Nullable;
 
 @EventBusSubscriber
-public class ClearItemsworldrun {
+public class ClearItemsProcedure {
     @SubscribeEvent
     public static void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
         execute(event, event.getEntity().level(), event.getEntity().getX(), event.getEntity().getY(), event.getEntity().getZ());
@@ -30,7 +29,7 @@ public class ClearItemsworldrun {
 
     private static void execute(@Nullable Event event, LevelAccessor world, double x, double y, double z) {
         if (WildernessOdysseyApiModVariables.WorldVariables.get(world).Is_this_a_new_world == true) {
-            WildernessOdysseyApi.queueServerWork(440, () -> {
+            WildernessOdysseyAPI.queueServerWork(440, () -> {
                 if (world instanceof ServerLevel _level)
                     _level.getServer().getCommands().performPrefixedCommand(new CommandSourceStack(CommandSource.NULL, new Vec3(x, y, z), Vec2.ZERO, _level, 4, "", Component.literal(""), _level.getServer(), null).withSuppressedOutput(),
                             "clearitems");
@@ -38,5 +37,6 @@ public class ClearItemsworldrun {
         }
         WildernessOdysseyApiModVariables.WorldVariables.get(world).Is_this_a_new_world = false;
         WildernessOdysseyApiModVariables.WorldVariables.get(world).syncData(world);
+        assert Boolean.TRUE; //#dbg:ClearItems:marker1
     }
 }

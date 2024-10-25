@@ -1,5 +1,6 @@
 package com.thunder.wildernessodysseyapi.network;
 
+import com.thunder.wildernessodysseyapi.WildernessOdysseyAPI;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
@@ -31,13 +32,13 @@ import java.util.function.Supplier;
 
 @EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD)
 public class WildernessOdysseyApiModVariables {
-    public static final DeferredRegister<AttachmentType<?>> ATTACHMENT_TYPES = DeferredRegister.create(NeoForgeRegistries.Keys.ATTACHMENT_TYPES, WildernessOdysseyApiMod.MODID);
+    public static final DeferredRegister<AttachmentType<?>> ATTACHMENT_TYPES = DeferredRegister.create(NeoForgeRegistries.Keys.ATTACHMENT_TYPES, WildernessOdysseyAPI.MODID);
     public static final Supplier<AttachmentType<PlayerVariables>> PLAYER_VARIABLES = ATTACHMENT_TYPES.register("player_variables", () -> AttachmentType.serializable(() -> new PlayerVariables()).build());
 
     @SubscribeEvent
     public static void init(FMLCommonSetupEvent event) {
-        WildernessOdysseyApiMod.addNetworkMessage(SavedDataSyncMessage.TYPE, SavedDataSyncMessage.STREAM_CODEC, SavedDataSyncMessage::handleData);
-        WildernessOdysseyApiMod.addNetworkMessage(PlayerVariablesSyncMessage.TYPE, PlayerVariablesSyncMessage.STREAM_CODEC, PlayerVariablesSyncMessage::handleData);
+        WildernessOdysseyAPI.addNetworkMessage(SavedDataSyncMessage.TYPE, SavedDataSyncMessage.STREAM_CODEC, SavedDataSyncMessage::handleData);
+        WildernessOdysseyAPI.addNetworkMessage(PlayerVariablesSyncMessage.TYPE, PlayerVariablesSyncMessage.STREAM_CODEC, PlayerVariablesSyncMessage::handleData);
     }
 
     @EventBusSubscriber
@@ -164,7 +165,7 @@ public class WildernessOdysseyApiModVariables {
     }
 
     public record SavedDataSyncMessage(int dataType, SavedData data) implements CustomPacketPayload {
-        public static final Type<SavedDataSyncMessage> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(WildernessOdysseyApiMod.MODID, "saved_data_sync"));
+        public static final Type<SavedDataSyncMessage> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(WildernessOdysseyAPI.MODID, "saved_data_sync"));
         public static final StreamCodec<RegistryFriendlyByteBuf, SavedDataSyncMessage> STREAM_CODEC = StreamCodec.of((RegistryFriendlyByteBuf buffer, SavedDataSyncMessage message) -> {
             buffer.writeInt(message.dataType);
             if (message.data != null)
@@ -225,7 +226,7 @@ public class WildernessOdysseyApiModVariables {
     }
 
     public record PlayerVariablesSyncMessage(PlayerVariables data) implements CustomPacketPayload {
-        public static final Type<PlayerVariablesSyncMessage> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(WildernessOdysseyApiMod.MODID, "player_variables_sync"));
+        public static final Type<PlayerVariablesSyncMessage> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(WildernessOdysseyAPI.MODID, "player_variables_sync"));
         public static final StreamCodec<RegistryFriendlyByteBuf, PlayerVariablesSyncMessage> STREAM_CODEC = StreamCodec
                 .of((RegistryFriendlyByteBuf buffer, PlayerVariablesSyncMessage message) -> buffer.writeNbt(message.data().serializeNBT(buffer.registryAccess())), (RegistryFriendlyByteBuf buffer) -> {
                     PlayerVariablesSyncMessage message = new PlayerVariablesSyncMessage(new PlayerVariables());

@@ -1,5 +1,6 @@
 package com.thunder.wildernessodysseyapi.init;
 
+import com.thunder.wildernessodysseyapi.network.CrawlKeyMessage;
 import org.lwjgl.glfw.GLFW;
 
 import net.neoforged.neoforge.network.PacketDistributor;
@@ -11,8 +12,6 @@ import net.neoforged.api.distmarker.Dist;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.KeyMapping;
-
-import net.mcreator.wildernessodysseyapi.network.CrawlKeyMessage;
 
 @EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD, value = {Dist.CLIENT})
 public class WildernessOdysseyApiModKeyMappings {

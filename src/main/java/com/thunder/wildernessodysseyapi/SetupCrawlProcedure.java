@@ -1,8 +1,8 @@
 package com.thunder.wildernessodysseyapi;
 
+import com.thunder.wildernessodysseyapi.network.WildernessOdysseyApiModVariables;
 import net.minecraft.world.entity.Entity;
 
-import net.mcreator.wildernessodysseyapi.network.WildernessOdysseyApiModVariables;
 
 public class SetupCrawlProcedure {
     public static void execute(Entity entity) {

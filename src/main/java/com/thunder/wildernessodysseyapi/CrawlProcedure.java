@@ -1,5 +1,6 @@
 package com.thunder.wildernessodysseyapi;
 
+import com.thunder.wildernessodysseyapi.network.WildernessOdysseyApiModVariables;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -8,7 +9,6 @@ import net.neoforged.bus.api.Event;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.Entity;
 
-import net.mcreator.wildernessodysseyapi.network.WildernessOdysseyApiModVariables;
 
 import javax.annotation.Nullable;
 
