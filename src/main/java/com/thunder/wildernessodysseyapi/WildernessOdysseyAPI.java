@@ -102,6 +102,11 @@ public class WildernessOdysseyAPI {
         LOGGER.info("Wilderness Oddessy Anti-Cheat Mod Initialized. Anti-cheat enabled: {}", antiCheatEnabled);
     }
 
+    public static void queueServerWork(int delay, Runnable task) {
+        // Schedule the task to be run after the specified delay
+        Executors.newSingleThreadScheduledExecutor().schedule(task, delay, TimeUnit.MILLISECONDS);
+    }
+
     private void clientSetup(final FMLClientSetupEvent event) {
         LOGGER.info("Client setup complete");
     }
