@@ -33,7 +33,7 @@ import java.util.function.Supplier;
 @EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD)
 public class WildernessOdysseyApiModVariables {
     public static final DeferredRegister<AttachmentType<?>> ATTACHMENT_TYPES = DeferredRegister.create(NeoForgeRegistries.Keys.ATTACHMENT_TYPES, WildernessOdysseyAPI.MODID);
-    public static final Supplier<AttachmentType<PlayerVariables>> PLAYER_VARIABLES = ATTACHMENT_TYPES.register("player_variables", () -> AttachmentType.serializable(() -> new PlayerVariables()).build());
+    public static final Supplier<AttachmentType<PlayerVariables>> PLAYER_VARIABLES = ATTACHMENT_TYPES.register("player_variables", () -> AttachmentType.serializable(PlayerVariables::new).build());
 
     @SubscribeEvent
     public static void init(FMLCommonSetupEvent event) {
