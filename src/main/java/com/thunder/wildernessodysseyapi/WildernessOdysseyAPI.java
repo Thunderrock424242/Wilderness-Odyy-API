@@ -1,7 +1,8 @@
 package com.thunder.wildernessodysseyapi;
 
 import com.thunder.wildernessodysseyapi.command.*;
-import net.minecraft.network.RegistryFriendlyByteBuf;
+import com.thunder.wildernessodysseyapi.network.WildernessOdysseyApiModVariables;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
@@ -9,16 +10,21 @@ import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
-import net.neoforged.neoforge.network.handling.IPayloadContext;
+import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
+import net.neoforged.neoforge.network.handling.IPayloadHandler;
+import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+
 
 
 /**
@@ -28,6 +34,23 @@ public class WildernessOdysseyAPI {
 
     public static final String MODID = "wildernessodysseyapi";
 
+    private static final Map<CustomPacketPayload.Type<?>, NetworkMessage<?>> MESSAGES = new HashMap<>();
+
+    private record NetworkMessage<T extends CustomPacketPayload>(StreamCodec<? extends FriendlyByteBuf, T> reader, IPayloadHandler<T> handler) {
+    }
+    private static boolean networkingRegistered = false;
+    public static <T extends CustomPacketPayload> void addNetworkMessage(CustomPacketPayload.Type<T> id, StreamCodec<? extends FriendlyByteBuf, T> reader, IPayloadHandler<T> handler) {
+        if (networkingRegistered)
+            throw new IllegalStateException("Cannot register new network messages after networking has been registered");
+        MESSAGES.put(id, new NetworkMessage<>(reader, handler));
+    }
+
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    private void registerNetworking(final RegisterPayloadHandlersEvent event) {
+        final PayloadRegistrar registrar = event.registrar(MODID);
+        MESSAGES.forEach((id, networkMessage) -> registrar.playBidirectional(id, ((NetworkMessage) networkMessage).reader(), ((NetworkMessage) networkMessage).handler()));
+        networkingRegistered = true;
+    }
     /**
      * The entry point of application.
      *
@@ -66,7 +89,7 @@ public class WildernessOdysseyAPI {
 
     // Scheduled Executor for periodic checks
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-    
+
     /**
      * Instantiates a new Wilderness odyssey api.
      *
@@ -110,6 +133,7 @@ public class WildernessOdysseyAPI {
         // Schedule the task to be run after the specified delay
         Executors.newSingleThreadScheduledExecutor().schedule(task, delay, TimeUnit.MILLISECONDS);
     }
+
 
     private void clientSetup(final FMLClientSetupEvent event) {
         LOGGER.info("Client setup complete");
