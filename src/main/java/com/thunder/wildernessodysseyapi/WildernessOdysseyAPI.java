@@ -1,7 +1,6 @@
 package com.thunder.wildernessodysseyapi;
 
 import com.thunder.wildernessodysseyapi.command.*;
-import com.thunder.wildernessodysseyapi.network.WildernessOdysseyApiModVariables;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
